@@ -8,6 +8,16 @@ function recuperarUsuarios() {
   });
 }
 
+function onSubmitForm() {
+  var dbcon = {
+    host: document.getElementById('host').value,
+    user: document.getElementById('user').value,
+    password: document.getElementById('password').value,
+    base: document.getElementById('base').value
+  };
+  console.log(dbcon);
+}
+
 function recuperarJson(url) {
   return new Promise(function (resolve, reject) {
     var xhr = new XMLHttpRequest();

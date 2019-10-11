@@ -3,6 +3,8 @@ var app = express();
 var bodyParser = require('body-parser');
 var mysql = require('mysql');
 var cors = require('cors');
+
+var dbConn;
   
 app.use(cors({
     'allowedHeaders': ['sessionId', 'Content-Type'],
@@ -23,17 +25,44 @@ app.use(bodyParser.urlencoded({
 app.get('/', function (req, res) {
     return res.send({ error: true, message: 'hello' })
 });
-// connection configurations
-var dbConn = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',    
-    database: 'zonazul'
-});
-  
+
+app.get('/default', function(req, res){
+    dbConn = mysql.createConnection({
+        host: 'localhost',
+        user: 'root',  
+        password: 'dino',
+        database: 'zonazul'
+    });
+    
+    dbConn.connect(function(err) {
+        if (err) throw err;
+        res.send('Connected');
+      });
+
+})
+
+
+
+
 // connect to database
-dbConn.connect(); 
- 
- 
+app.post('/connect', function(req,res){
+
+     dbConn = mysql.createConnection({
+        host: req.body.host,
+        user: req.body.user,  
+        password: req.body.password,
+        database: req.body.database
+    });
+
+    dbConn.connect(function(err) {
+        if (err) throw err;
+        return res.send('Connected');
+      });
+
+});
+
+
+   
 // Recuperar todos usuarios
 app.get('/usuario', function (req, res) {
     dbConn.query('SELECT * FROM usuario', function (error, results, fields) {

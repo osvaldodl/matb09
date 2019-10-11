@@ -5,6 +5,14 @@
      <title>ZonaAzul Digital</title>   
 </head>
 <body>
+    <form id="myForm" onsubmit="onSubmitForm()" >	
+        <p>Host: <input type="text" name="host"></p>
+        <p>Usuario: <input type="text" name="user"></p>
+        <p>Senha: <input type="text" name="password"></p>
+        <p>Base de dados <input type="text" name="base"> </p>
+        <p><input type="submit" value="Conectar"></p>
+    </form>
+
     <input type="button" onclick="recuperarUsuarios()" value="Recuperar Usuarios" />
     <p id="showData"></p>
 
