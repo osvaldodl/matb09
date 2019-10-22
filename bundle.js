@@ -1,6 +1,7 @@
 "use strict";
 
 function recuperarUsuarios() {
+  console.log('chamou');
   recuperarJson('http://localhost:3000/usuario').then(function (response) {
     return criarTabela(response.data);
   })["catch"](function (error) {
@@ -8,14 +9,39 @@ function recuperarUsuarios() {
   });
 }
 
-function onSubmitForm() {
+function conectar() {
   var dbcon = {
     host: document.getElementById('host').value,
+    port: document.getElementById('port').value,
     user: document.getElementById('user').value,
     password: document.getElementById('password').value,
     base: document.getElementById('base').value
   };
-  console.log(dbcon);
+  Promise.all([sendJson('http://localhost:3000/connect', JSON.stringify(dbcon))]).then(function (response) {
+    return recuperarUsuarios();
+  })["catch"](function (error) {
+    return console.warn(error);
+  });
+}
+
+function sendJson(url, json) {
+  return new Promise(function (resolve, reject) {
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', url);
+    xhr.setRequestHeader("Content-Type", "application/json");
+    xhr.send(json);
+
+    xhr.onreadystatechange = function () {
+      if (xhr.readyState === 4) {
+        if (xhr.status === 200) {
+          console.log('Concluido');
+          resolve('OK');
+        } else {
+          reject('Erro na requisição');
+        }
+      }
+    };
+  });
 }
 
 function recuperarJson(url) {
@@ -27,7 +53,7 @@ function recuperarJson(url) {
     xhr.onreadystatechange = function () {
       if (xhr.readyState === 4) {
         if (xhr.status === 200) {
-          console.log('Concluido');
+          console.log('OK');
           resolve(JSON.parse(xhr.responseText));
         } else {
           reject('Erro na requisição');
@@ -38,6 +64,8 @@ function recuperarJson(url) {
 }
 
 function criarTabela(data) {
+  document.getElementById("form").innerHTML = "";
+  console.log(data);
   var col = [];
 
   for (var i = 0; i < data.length; i++) {

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+
+<style>
+        table, td, th {  
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+        
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        
+        th, td {
+            padding: 15px;
+        }
+</style>
+<head>
+    <meta charset='utf-8'>
+     <title>ZonaAzul Digital</title>   
+</head>
+<body>
+    <div id="form">
+    <form id="myForm" >	
+        <p>Host: <input type="text" id="host"> Porta: <input type="text" id="port"> </p>
+        <p>Usuario: <input type="text" id="user"></p>
+        <p>Senha: <input type="text" id="password"></p>
+        <p>Base de dados <input type="text" id="base"> </p>
+    </form> 
+    <button onclick="conectar()" >Conectar e recuperar usuarios</button>   
+    </div>    
+    <div id='showData'></div>
+    <script src='bundle.js'></script>
+</body>
+
+
+</html>
